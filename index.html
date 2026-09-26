@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ADC verstehen · BKI2 Informationstechnik</title>
+  <meta name="description" content="Spannungen quantisieren, ADC-Auflösung vergleichen und Abtastpunkte untersuchen. Interaktive Lernseite zum BKI2-Arbeitsblatt.">
+  <link rel="icon" href="FTS_logo.png"><link rel="stylesheet" href="style.css"><link rel="stylesheet" href="adc.css">
+  <script src="model.js" defer></script><script src="app.js" defer></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Zum Inhalt</a>
+<div class="wrap">
+  <header class="masthead">
+    <img class="logo" src="FTS_logo.png" alt="Staatliche Feintechnikschule" width="95" height="76">
+    <div class="heading"><span class="eyebrow">BKI2 · INFORMATIONSTECHNIK · BPE 5.1</span><h1>ADC verstehen</h1><p>Wie fein messen? Wann erfassen?</p></div>
+    <a class="qr-area" href="QR_Code.png" aria-label="QR-Code zu dieser Lernseite öffnen"><img src="QR_Code.png" alt="QR-Code zu dieser Lernseite" width="110" height="110"></a>
+  </header>
+  <nav class="tabs" aria-label="Lernbereiche">
+    <button class="tab selected" data-panel="quant" aria-controls="quant" aria-pressed="true">01 Quantisierung</button>
+    <button class="tab" data-panel="resolution" aria-controls="resolution" aria-pressed="false">02 Auflösung</button>
+    <button class="tab" data-panel="sampling" aria-controls="sampling" aria-pressed="false">03 Abtastung</button>
+    <button class="tab" data-panel="check" aria-controls="check" aria-pressed="false">04 Selbstcheck</button>
+  </nav>
+  <main id="main">
+    <noscript><p class="card">Bitte aktivieren Sie JavaScript für die interaktiven Darstellungen. Das <a href="Arbeitsblatt.pdf">Arbeitsblatt als PDF</a> können Sie auch ohne JavaScript nutzen.</p></noscript>
+    <section id="quant" class="panel" aria-labelledby="quant-title">
+      <div class="section-head"><div><span class="eyebrow">VON DER ANALOGEN SPANNUNG ZUM CODE</span><h2 id="quant-title">Verschiedene Spannungen. Derselbe Digitalwert?</h2><p>Verschieben Sie die Eingangsspannung. Beobachten Sie, wann sich der Code ändert.</p></div><span class="badge">Arbeitsblatt · Seite 1</span></div>
+      <div class="lab">
+        <div class="card controls">
+          <h3>2-Bit-ADC · 0 bis 5 V</h3>
+          <label for="q-slider">Eingangsspannung Uₑ <output id="q-display" for="q-slider">1,60 V</output></label>
+          <input id="q-slider" type="range" min="0" max="5" step="0.01" value="1.6">
+          <label for="q-input">Spannung genau einstellen (V)</label><input id="q-input" type="number" min="0" max="5" step="0.01" value="1.6" inputmode="decimal">
+          <p id="q-error" class="error" role="alert" hidden></p>
+          <div class="presets" aria-label="Beispielspannungen"><button data-voltage="1.6">1,60 V</button><button data-voltage="2.2">2,20 V</button><button data-voltage="2.49">2,49 V</button><button data-voltage="2.51">2,51 V</button></div>
+          <button id="q-pin" class="primary">Wert zum Vergleich merken</button><button id="q-reset" class="quiet">Zurücksetzen</button>
+          <p class="small">Die Spannung stammt aus der aufbereiteten Temperaturmessung. Sample and Hold hält sie während der Wandlung.</p>
+        </div>
+        <div class="card visual">
+          <div class="flow"><div><span>Analog am Eingang</span><strong id="q-voltage"></strong></div><span class="flow-arrow" aria-hidden="true">→</span><div><span>ADC · 4 Intervalle</span><strong>ΔU = 1,25 V</strong></div><span class="flow-arrow" aria-hidden="true">→</span><div><span>Digital am Ausgang</span><strong id="q-code"></strong><div id="q-bits" class="bit-row" aria-label="Binärcode"></div></div></div>
+          <div id="q-chart" class="chart-frame"></div>
+          <p id="q-status" class="event" role="status" aria-live="polite"></p>
+          <p id="q-comparison" class="comparison">Merken Sie einen Wert und verändern Sie anschließend die Spannung.</p>
+        </div>
+      </div>
+      <div class="two-col">
+        <div class="card"><h3>Untersuchen</h3><ol><li>Merken Sie 1,60 V. Stellen Sie danach 2,20 V ein. Kann das Programm diese Werte unterscheiden?</li><li>Vergleichen Sie 2,49 V mit 2,51 V. Erklären Sie die Änderung am Diagramm.</li></ol><details><summary>Beobachtung erklären</summary><p>1,60 V und 2,20 V liegen im selben Intervall und liefern beide D = 1. 2,49 V und 2,51 V liegen dagegen auf verschiedenen Seiten der Grenze bei 2,50 V. Sie liefern D = 1 bzw. D = 2. Entscheidend ist das Intervall, in dem die Spannung liegt.</p></details></div>
+        <div class="card"><h3>So lesen Sie die Kennlinie</h3><p>Waagerecht: Eingangsspannung in Volt. Senkrecht: ganzzahliger Digitalwert D. Eine waagerechte Stufe fasst einen ganzen Spannungsbereich zu einem Code zusammen.</p><p>Die <strong>untere Grenze gehört zum Intervall</strong>, die obere zum nächsten. Genau 5 V gehören zum letzten Code. Der genaue Spannungswert innerhalb eines Intervalls geht bei der Zuordnung verloren.</p></div>
+      </div>
+    </section>
+
+    <section id="resolution" class="panel" aria-labelledby="resolution-title" hidden>
+      <div class="section-head"><div><span class="eyebrow">BITZAHL UND REFERENZSPANNUNG</span><h2 id="resolution-title">Mehr Bits, feinere Einteilung</h2><p>Verändern Sie jeweils eine Einstellung und vergleichen Sie die Schrittweite.</p></div><span class="badge">Arbeitsblatt · Seite 2</span></div>
+      <div class="toolbar">
+        <label for="r-bits">Bitzahl n</label><select id="r-bits"><option value="2">2 Bit</option><option value="3">3 Bit</option><option value="4" selected>4 Bit</option><option value="8">8 Bit</option></select>
+        <label for="r-ref">Referenzspannung</label><select id="r-ref"><option value="5">5 V</option><option value="4">4 V</option><option value="3.3">3,3 V</option></select>
+        <label for="r-input">Uₑ (V)</label><input id="r-input" type="number" min="0" max="5" step="0.01" value="2.2">
+        <button id="r-reset" class="quiet">Zurücksetzen</button>
+      </div>
+      <p id="r-error" class="error" role="alert" hidden></p>
+      <div id="r-results" class="results" aria-live="polite"></div>
+      <div class="card"><div id="r-chart" class="chart-frame"></div><p id="r-status" class="event" role="status"></p><p class="small">Ab 8 Bit zeigt das Diagramm einen beschrifteten Ausschnitt um den aktuellen Code. Vergleichen Sie die Zahlenwerte der Achsen und ΔU.</p></div>
+      <div class="two-col">
+        <div class="card"><h3>Bei gleicher Referenz vergleichen</h3><div class="table-scroll"><table><caption id="r-caption"></caption><thead><tr><th>Bits n</th><th>Codes N</th><th>Dmax</th><th>ΔU</th></tr></thead><tbody id="r-table"></tbody></table></div><p class="small">Ein zusätzliches Bit verdoppelt N und halbiert ΔU.</p></div>
+        <div class="card"><h3>Eine Auswahl begründen</h3><p>Stellen Sie 5 V Referenzspannung ein. Gefordert ist eine Schrittweite von höchstens 0,40 V. Welche kleinste Bitzahl aus der Tabelle genügt?</p><details><summary>Entscheidung vergleichen</summary><p>4 Bit: 5 V / 16 = 0,3125 V. Das ist höchstens 0,40 V. 3 Bit reichen mit 0,625 V nicht aus. 8 Bit erfüllen die Forderung ebenfalls, sind aber nicht die kleinste angebotene Variante.</p></details><div class="formula">N = 2ⁿ &nbsp; · &nbsp; Dmax = 2ⁿ − 1<br>ΔU = Uref / 2ⁿ</div><p class="small">Formelsammlung: S. 12, Abschnitt 2.3, „Kleine Spannungsstufe“. Wir verwenden die Intervallregel des Arbeitsblatts.</p></div>
+      </div>
+    </section>
+
+    <section id="sampling" class="panel" aria-labelledby="sampling-title" hidden>
+      <div class="section-head"><div><span class="eyebrow">DIE ZEITLICHE SEITE DER MESSUNG</span><h2 id="sampling-title">Signalperiode und Abtastintervall unterscheiden</h2><p>Erfassen Sie die Spannung Schritt für Schritt. Jeder Punkt steht für einen Abtastzeitpunkt.</p></div><span class="badge">Arbeitsblatt · Seite 3</span></div>
+      <div class="toolbar">
+        <label for="s-period">Signalperiode T</label><select id="s-period"><option value="4">4 ms · wie im Arbeitsblatt</option><option value="8">8 ms</option></select>
+        <label for="s-interval">Abtastintervall Tₐ</label><select id="s-interval"><option value="1">1 ms · wie im Arbeitsblatt</option><option value="0.5">0,5 ms</option><option value="0.25">0,25 ms</option></select>
+        <button id="s-reset" class="quiet">Ausgangswerte</button>
+      </div>
+      <div id="s-results" class="results"></div>
+      <div class="card">
+        <div id="s-chart" class="chart-frame"></div>
+        <div class="legend"><span><i class="line-key" aria-hidden="true"></i>Analoger Signalverlauf</span><span><i class="dot-key" aria-hidden="true"></i>Abgetastete Spannung</span><span>Keine Quantisierung in diesem Diagramm</span></div>
+        <div class="actions"><button id="s-step" class="primary">Nächsten Wert erfassen</button><button id="s-play" aria-pressed="false">Automatisch erfassen</button><button id="s-all">Alle Abtastpunkte zeigen</button><button id="s-clear" class="quiet">Messung neu beginnen</button></div>
+        <p id="s-status" class="event" role="status" aria-live="polite"></p>
+        <div class="table-scroll"><table><caption>Erfasste Werte im Zeitfenster von 0 bis 8 ms</caption><thead><tr id="s-time-row"></tr></thead><tbody><tr id="s-value-row"></tr></tbody></table></div>
+        <p class="small">Die automatische Darstellung ist zum Beobachten verlangsamt. Die Zeitachse zeigt die Signalzeit in Millisekunden.</p>
+      </div>
+      <div class="two-col"><div class="card"><h3>Zwei verschiedene Frequenzen</h3><p><strong>f = 1 / T</strong> beschreibt das Signal: vollständige Perioden pro Sekunde.</p><p><strong>fₐ = 1 / Tₐ</strong> beschreibt die Messung: Erfassungen pro Sekunde.</p><p>Vor der Kehrwertrechnung: 1 ms = 0,001 s.</p></div><div class="card"><h3>Untersuchen</h3><ol><li>Erfassen Sie bei T = 4 ms und Tₐ = 1 ms alle Werte. Übertragen Sie die Spannungen in Ihr Arbeitsblatt.</li><li>Verdoppeln Sie nur T. Welche Frequenz ändert sich?</li><li>Stellen Sie die Ausgangswerte wieder her. Halbieren Sie nur Tₐ. Was ändert sich am Signal, was an den Messzeitpunkten?</li></ol><details><summary>Begründung vergleichen</summary><p>T = 4 ms entspricht f = 250 Hz; T = 8 ms entspricht f = 125 Hz. Die Abtastfrequenz bleibt dabei gleich. Bei Tₐ = 0,5 ms steigt fₐ auf 2000 Hz, während das Signal unverändert bleibt. Ein kürzeres Abtastintervall erzeugt mehr Messzeitpunkte.</p></details></div></div>
+    </section>
+
+    <section id="check" class="panel" aria-labelledby="check-title" hidden>
+      <div class="section-head"><div><span class="eyebrow">ERST ÜBERLEGEN, DANN PRÜFEN</span><h2 id="check-title">Was bestimmt die Messung?</h2><p>Wählen Sie Antworten und lassen Sie sich die Begründungen anzeigen.</p></div><span class="badge">Übung zum Arbeitsblatt</span></div>
+      <div class="card"><div id="quiz"></div><div class="actions"><button id="quiz-check" class="primary">Antworten prüfen</button><button id="quiz-reset" class="quiet">Neu beginnen</button></div><p id="quiz-score" class="event" role="status" aria-live="polite">Noch keine Antworten geprüft.</p></div>
+    </section>
+    <details class="card"><summary>Modell und fachliche Einordnung</summary><p>Idealisiertes unipolares ADC-Modell: 2ⁿ gleich breite Intervalle zwischen 0 V und Uref, Codes von 0 bis 2ⁿ − 1. Untere Grenzen gehören jeweils zum Intervall, genau Uref zum letzten Code. Spannungen außerhalb des Bereichs werden nicht zugeordnet.</p><p>Die Schrittweite ΔU = Uref / 2ⁿ beschreibt die Wertauflösung, nicht die gesamte Messgenauigkeit. Die Endpunktskalierung mit 2ⁿ − 1 aus der Formelsammlung wird hier nicht für die Codezuordnung verwendet.</p><p>Für die Abtastung verwenden wir ein periodisches Testsignal zwischen 1 V und 3 V. Die Zuordnung zu Spannungsstufen ist in diesem Bereich der Seite ausgeblendet. Die Auswahl einer geeigneten Abtastfrequenz wird in der nächsten Stunde untersucht.</p><p>Alle Berechnungen laufen lokal im Browser. Die Seite speichert keine Antworten und lädt keine externen Bibliotheken.</p></details>
+  </main>
+  <footer><span>FTS · BKI2 Informationstechnik · ADC</span><a href="Arbeitsblatt.pdf">Arbeitsblatt als PDF</a><a href="impressum.html">Impressum / Rechtliches</a></footer>
+</div>
+</body>
+</html>
