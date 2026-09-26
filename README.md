@@ -2,7 +2,7 @@
 
 Interaktive Lernseite zur Doppelstunde am 29.09.2026: Quantisierung, Auflösung und Grundlagen der zeitlichen Abtastung.
 
-Geplante Adresse: https://pirminheld.github.io/BKI2_IN_ADC_Quantisierung/
+Veröffentlicht: https://pirminheld.github.io/BKI2_IN_ADC_Quantisierung/
 
 ## Verwendung
 
@@ -23,6 +23,8 @@ Geplante Adresse: https://pirminheld.github.io/BKI2_IN_ADC_Quantisierung/
 
 ## Prüfung
 
-`node test.cjs` prüft das Fachmodell einschließlich Intervallgrenzen, Bitzahlen und Abtastwerten. Die Bedienung und Darstellung werden zusätzlich mit einem lokalen Browser geprüft.
+`node test.cjs` prüft das Fachmodell einschließlich Intervallgrenzen, Bitzahlen und Abtastwerten. 5430 Prüfungen bestanden. Zusätzlich wurden Eingaben, Vergleichsspeicher, Navigation, Abtastanimation, Quiz und Impressum mit Chromium geprüft; Layoutkontrolle bei 1440, 768 und 390 Pixel Breite sowie Offline-Aufruf per Datei. Diagramme und breite Tabellen lassen sich auf kleinen Bildschirmen seitlich verschieben.
+
+Die QR-Codes in der vierseitigen Schüler-PDF und der separaten lokalen Lösung wurden aus gerenderten PDF-Seiten dekodiert; Ziel und anklickbarer Link stimmen mit der veröffentlichten Adresse überein. Die Lösung wird nicht auf dieser Seite veröffentlicht.
 
 Nutzung und rechtliche Angaben: siehe `impressum.html`.
